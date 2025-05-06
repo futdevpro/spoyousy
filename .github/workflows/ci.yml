@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  lint:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'pnpm'
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm install
+    - name: Type check
+      run: pnpm run type-check
+    - name: Run ESLint
+      run: pnpm run lint
+
+  test:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'pnpm'
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm install
+    - name: Run tests
+      run: pnpm run test
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage/lcov.info
+        fail_ci_if_error: true
+
+  build:
+    runs-on: windows-latest
+    needs: [lint, test]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'pnpm'
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: pnpm install
+    - name: Build Next.js
+      run: pnpm run build
+    - name: Setup WebOS CLI
+      run: pnpm run setup:webos
+    - name: Build WebOS
+      run: pnpm run build:webos
+    - name: Package WebOS
+      run: pnpm run package:webos
+    - name: Upload WebOS IPK
+      uses: actions/upload-artifact@v4
+      with:
+        name: webos-app
+        path: dist/*.ipk
+        if-no-files-found: error
+    - name: Upload Next.js build
+      uses: actions/upload-artifact@v4
+      with:
+        name: next-build
+        path: .next
+        if-no-files-found: error 

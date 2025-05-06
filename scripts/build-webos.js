@@ -80,18 +80,14 @@ function copyWebOSFiles() {
     process.exit(1);
   }
 
-  // Create default icon if it doesn't exist
-  const iconPath = path.join(distDir, 'icon.png');
-  if (!fs.existsSync(iconPath)) {
-    console.log('Creating default icon.png...');
-    // Create a simple 128x128 white PNG
-    const { createCanvas } = require('canvas');
-    const canvas = createCanvas(128, 128);
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 128, 128);
-    const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync(iconPath, buffer);
+  // Always copy custom icon from src/assets/icon.png
+  const customIconSrc = path.join(__dirname, '..', 'src', 'assets', 'icon.png');
+  const iconDest = path.join(distDir, 'icon.png');
+  if (fs.existsSync(customIconSrc)) {
+    fs.copyFileSync(customIconSrc, iconDest);
+    console.log('Custom icon.png copied from src/assets/icon.png');
+  } else {
+    console.warn('Custom icon.png not found at src/assets/icon.png');
   }
 }
 
