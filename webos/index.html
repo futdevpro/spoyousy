@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpoYouSy</title>
+  <script src="webos.js"></script>
+  <script>
+    window.webOSSystem = {
+      highContrast: false,
+      screenOrientation: 'landscape',
+      launchParams: {},
+      onClose: () => {
+        // Clean up resources before app closes
+        window.dispatchEvent(new Event('webos-close'));
+      }
+    };
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    // Load the main application
+    const script = document.createElement('script');
+    script.src = '/_next/static/chunks/main.js';
+    document.body.appendChild(script);
+  </script>
+</body>
+</html> 

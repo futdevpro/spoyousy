@@ -1,0 +1,25 @@
+{
+  "id": "com.spoyousy.app",
+  "version": "1.0.0",
+  "vendor": "SpoYouSy",
+  "type": "web",
+  "main": "index.html",
+  "title": "SpoYouSy",
+  "icon": "icon.png",
+  "requiredPermissions": [
+    "time.query",
+    "activity.operation",
+    "network.query",
+    "network.operation",
+    "media.operation",
+    "media.query"
+  ],
+  "supportedResolutions": ["1920x1080"],
+  "defaultResolution": "1920x1080",
+  "launchPoint": {
+    "icon": "icon.png",
+    "title": "SpoYouSy",
+    "category": "video",
+    "background": "#000000"
+  }
+} 
