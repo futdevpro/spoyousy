@@ -11,7 +11,7 @@ const SKIP_MINIFY = [
 
 // Minify JavaScript files
 async function minifyFiles() {
-  console.log('Minifying JavaScript files...');
+  console.log('🌀 [Minify] Starting JavaScript minification for WebOS package...');
   const distDir = path.join(__dirname, '..', 'dist');
 
   // Get all JavaScript files recursively
@@ -61,21 +61,62 @@ async function minifyFiles() {
       console.warn(`Warning: Could not minify ${file}:`, error.message);
     }
   }
+  console.log('✅ [Minify] JavaScript minification completed for WebOS package.');
 }
 
 // Package the app
 async function packageApp() {
   try {
-    // Run build first
+    // Build first
+    console.log('🚧 Building Next.js app before packaging...');
     execSync('pnpm run build:webos', { stdio: 'inherit' });
+    console.log('✅ Next.js build completed.');
 
     // Minify files
     await minifyFiles();
 
-    // Run ares-package with --no-minify flag
-    execSync('ares-package dist --no-minify', { stdio: 'inherit' });
+    // Read appId from dist/appinfo.json and version from package.json
+    const distDir = path.join(__dirname, '..', 'dist');
+    const appInfoPath = path.join(distDir, 'appinfo.json');
+    let appId = 'app';
+    if (fs.existsSync(appInfoPath)) {
+      const appInfo = JSON.parse(fs.readFileSync(appInfoPath, 'utf8'));
+      appId = appInfo.id || appId;
+    }
+    // Read version from package.json
+    const pkg = require('../package.json');
+    const version = pkg.version || '0.0.0';
+    // Optionally update dist/appinfo.json with the correct version
+    if (fs.existsSync(appInfoPath)) {
+      const appInfo = JSON.parse(fs.readFileSync(appInfoPath, 'utf8'));
+      if (appInfo.version !== version) {
+        appInfo.version = version;
+        fs.writeFileSync(appInfoPath, JSON.stringify(appInfo, null, 2));
+        console.log(`🔄 [Version Sync] Updated dist/appinfo.json version to ${version}`);
+      }
+    }
+    // Use a root-level 'ipks' directory for all IPK files
+    const ipkDir = 'ipks';
+    if (!fs.existsSync(ipkDir)) {
+      fs.mkdirSync(ipkDir, { recursive: true });
+      console.log(`📁 [IPK Output] Created root-level IPK output directory: ${ipkDir}`);
+    }
+    const ipkName = `${appId}_${version}_all`;
+    const ipkFile = path.join(ipkDir, `${ipkName}.ipk`);
+    // If a directory with the same name as the intended IPK file exists, remove it
+    if (fs.existsSync(ipkFile) && fs.lstatSync(ipkFile).isDirectory()) {
+      fs.rmSync(ipkFile, { recursive: true, force: true });
+      console.log(`🧹 [IPK Output] Removed directory with conflicting IPK file name: ${ipkFile}`);
+    }
 
-    console.log('✅ Successfully packaged WebOS app');
+    // Run ares-package with --no-minify flag and output directory only
+    // --no-minify: We run our own minification step (minifyFiles), so we do not want ares-package to minify again.
+    // -o: Specifies the output directory for the generated .ipk package.
+    console.log(`📦 [Packaging] Packaging the application to directory: ${ipkDir}...`);
+    execSync(`ares-package dist --no-minify -o ${ipkDir}`, { stdio: 'inherit' });
+    console.log('✅ [Packaging] WebOS app packaging step completed.');
+
+    console.log('🎉 [Packaging] Successfully created WebOS IPK package in ipks directory.');
   } catch (error) {
     console.error('❌ Error packaging app:', error);
     process.exit(1);

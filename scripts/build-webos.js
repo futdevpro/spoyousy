@@ -43,18 +43,19 @@ function askQuestion(question) {
 
 // Build Next.js app
 function buildNextApp() {
-  console.log('Building Next.js app...');
+  console.log('🛠️ Starting Next.js build...');
   try {
     execSync('pnpm run build', { stdio: 'inherit' });
+    console.log('✅ Next.js build completed.');
   } catch (error) {
-    console.error('Error building Next.js app:', error);
+    console.error('❌ Error building Next.js app:', error);
     process.exit(1);
   }
 }
 
 // Copy WebOS files
 function copyWebOSFiles() {
-  console.log('Copying WebOS files...');
+  console.log('📁 Copying WebOS files...');
   const webosDir = path.join(__dirname, '..', 'webos');
   const distDir = path.join(__dirname, '..', 'dist');
 
@@ -89,11 +90,13 @@ function copyWebOSFiles() {
   } else {
     console.warn('Custom icon.png not found at src/assets/icon.png');
   }
+
+  console.log('✅ WebOS files copied.');
 }
 
 // Copy Next.js build output
 function copyNextBuild() {
-  console.log('Copying Next.js build output...');
+  console.log('📁 Copying Next.js build output...');
   const nextDir = path.join(__dirname, '..', '.next');
   const distDir = path.join(__dirname, '..', 'dist');
 
@@ -113,11 +116,13 @@ function copyNextBuild() {
     console.error('Error copying Next.js build output:', error);
     process.exit(1);
   }
+
+  console.log('✅ Next.js build output copied.');
 }
 
 // Copy files that should skip minification to a temporary directory
 function copySkipMinifyFiles() {
-  console.log('Copying files that should skip minification...');
+  console.log('📁 Copying files that should skip minification...');
   const distDir = path.join(__dirname, '..', 'dist');
   const tempDir = path.join(__dirname, '..', '.temp-skip-minify');
 
@@ -142,11 +147,13 @@ function copySkipMinifyFiles() {
       fs.copyFileSync(sourcePath, destPath);
     }
   });
+
+  console.log('✅ Skip-minify files copied.');
 }
 
 // Restore files that should skip minification
 function restoreSkipMinifyFiles() {
-  console.log('Restoring files that should skip minification...');
+  console.log('♻️ Restoring files that should skip minification...');
   const distDir = path.join(__dirname, '..', 'dist');
   const tempDir = path.join(__dirname, '..', '.temp-skip-minify');
 
@@ -167,11 +174,14 @@ function restoreSkipMinifyFiles() {
 
   // Clean up temp directory
   fs.rmSync(tempDir, { recursive: true, force: true });
+
+  console.log('✅ Skip-minify files restored.');
 }
 
 // Main build process
 async function build() {
   try {
+    console.log('🚀 Starting WebOS build process...');
     // Check WebOS CLI and handle setup if needed
     const cliStatus = await checkWebOSCLI(true);
     if (!cliStatus) {
@@ -190,7 +200,10 @@ async function build() {
     // Copy files that should skip minification
     copySkipMinifyFiles();
 
-    console.log('WebOS build completed successfully!');
+    // Restore files that should skip minification
+    restoreSkipMinifyFiles();
+
+    console.log('✅ WebOS build process completed!');
     console.log('To package the app, run: pnpm run package:webos');
     console.log('To install the app, run: pnpm run install:webos');
   } catch (error) {

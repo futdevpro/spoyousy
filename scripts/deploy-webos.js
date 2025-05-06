@@ -59,33 +59,28 @@ async function checkDeviceConnection() {
 
 async function deployAndLaunch() {
   try {
-    console.log('🚀 Starting WebOS packaging and deployment process...');
+    console.log('🚀 Starting WebOS deployment process...');
 
-    // Run the build script first
-    console.log('📦 Building the application...');
-    execSync('pnpm run build:webos', { stdio: 'inherit' });
-
-    // Package the app
+    // Package the app (includes build, minify, and package)
     console.log('📦 Packaging the application...');
     execSync('pnpm run package:webos', { stdio: 'inherit' });
+    console.log('✅ Package step completed.');
 
-    // Find the IPK file in root or dist directory
-    const rootDir = process.cwd();
-    const distDir = path.join(rootDir, 'dist');
-    
-    // Look for IPK files in both directories
-    const rootIpkFiles = fs.readdirSync(rootDir).filter(file => file.endsWith('.ipk'));
-    const distIpkFiles = fs.existsSync(distDir) ? fs.readdirSync(distDir).filter(file => file.endsWith('.ipk')) : [];
-    
-    const ipkFiles = [...rootIpkFiles, ...distIpkFiles];
-
-    if (ipkFiles.length === 0) {
-      throw new Error('No IPK file found in root or dist directory');
+    // Read appId from dist/appinfo.json and version from package.json
+    const distDir = path.join(process.cwd(), 'dist');
+    const appInfoPath = path.join(distDir, 'appinfo.json');
+    let appId = '';
+    if (fs.existsSync(appInfoPath)) {
+      const appInfo = JSON.parse(fs.readFileSync(appInfoPath, 'utf8'));
+      appId = appInfo.id;
     }
-
-    // Use the first IPK file found
-    const ipkPath = path.join(rootDir, ipkFiles[0]);
-    console.log(`📦 Found IPK file: ${ipkFiles[0]}`);
+    const pkg = require('../package.json');
+    const version = pkg.version || '0.0.0';
+    // Use the root-level 'ipks' directory for all IPK files
+    const ipkDir = path.join(process.cwd(), 'ipks');
+    const ipkName = `${appId}_${version}_all.ipk`;
+    const ipkPath = path.join(ipkDir, ipkName);
+    console.log(`📦 [Deploy] Using IPK file: ${ipkPath}`);
 
     // Check device connection before attempting deployment
     const isDeviceConnected = await checkDeviceConnection();
@@ -93,16 +88,33 @@ async function deployAndLaunch() {
       throw new Error('Device connection check failed. Please follow the troubleshooting steps above.');
     }
 
+    // Check if app is already installed and uninstall if so
+    if (appId) {
+      try {
+        const listOutput = execSync(`ares-launch --list --device ${DEVICE_NAME}`).toString();
+        if (listOutput.includes(appId)) {
+          console.log(`🗑️ App ${appId} is already installed. Uninstalling...`);
+          execSync(`ares-uninstall --device ${DEVICE_NAME} ${appId}`, { stdio: 'inherit' });
+          console.log('✅ Uninstall step completed.');
+        }
+      } catch (e) {
+        console.warn('Warning: Could not check/uninstall existing app:', e.message);
+      }
+    }
+
     // Deploy to device
     console.log(`📱 Deploying to WebOS device (${DEVICE_NAME})...`);
     execSync(`ares-install --device ${DEVICE_NAME} ${ipkPath}`, { stdio: 'inherit' });
+    console.log('✅ Install step completed.');
 
     // Launch the app
-    //console.log('🚀 Launching the application...');
-    //const appId = require('../dist/appinfo.json').id;
-    //execSync(`ares-launch ${appId}`, { stdio: 'inherit' });
+    console.log('🚀 Launching the application...');
+    if (appId) {
+      execSync(`ares-launch --device ${DEVICE_NAME} ${appId}`, { stdio: 'inherit' });
+      console.log('✅ Launch step completed.');
+    }
 
-    console.log('✅ Deployment completed successfully!');
+    console.log('✅ Deployment and launch completed successfully!');
   } catch (error) {
     console.error('❌ Error during packaging and deployment:', error.message);
     process.exit(1);

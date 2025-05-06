@@ -1,6 +1,6 @@
 {
   "name": "spoyousy",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "prep": "npm i -g pnpm && pnpm i",

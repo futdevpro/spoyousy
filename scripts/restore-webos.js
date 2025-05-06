@@ -30,6 +30,7 @@ function restoreSkipMinifyFiles() {
 
   // Clean up temp directory
   fs.rmSync(tempDir, { recursive: true, force: true });
+  console.log('✅ Skip-minify files restored.');
 }
 
 // Run restore process
