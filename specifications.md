@@ -61,6 +61,64 @@ SpoYouSy is a Next.js/React application that integrates Spotify and YouTube, all
 - When the user commands to create something new in the app that is not included in this file, add it to `specifications.md`.
 - **All rules and commands from `.cursor/rules` must be enforced for every command and implementation.**
 
+## WebOS Development Scripts
+
+### Overview
+A set of scripts for building, packaging, and deploying WebOS applications. All scripts follow consistent patterns for error handling, logging, and user feedback.
+
+### Scripts
+
+#### `build-webos.js`
+- **Purpose**: Complete WebOS build process
+- **Flow**: CLI check → Next.js build → WebOS files copy → Next.js output copy → Minification management
+- **Key**: Platform-specific operations, minification skip handling
+
+#### `package-webos.js`
+- **Purpose**: Package built app for deployment
+- **Flow**: Build → Minify → Version sync → IPK generation
+- **Key**: Terser minification, version management, IPK output
+
+#### `deploy-webos.js`
+- **Purpose**: Deploy and install WebOS app
+- **Flow**: Package → Device check → Uninstall if needed → Install → Launch
+- **Key**: Device management, installation handling, app launching
+
+#### `restore-webos.js`
+- **Purpose**: Restore unminified files
+- **Flow**: Temp storage → Restore → Cleanup
+- **Key**: File preservation, cleanup management
+
+#### `setup-webos.js`
+- **Purpose**: WebOS environment setup
+- **Flow**: CLI check → Install/update → Path config → Device setup
+- **Key**: Environment configuration, device setup assistance
+
+### Common Features
+- Consistent error handling and logging
+- Platform-specific adaptations
+- Progress tracking and cleanup
+- Unique, prefixed logs with emojis
+- Comprehensive user feedback
+
+### Dependencies
+- Node.js and pnpm
+- WebOS CLI
+- Platform tools (xcopy/cp)
+
+### Best Practices
+1. Run in order: setup → build → package → deploy
+2. Monitor logs for status
+3. Verify device connection
+4. Keep versions in sync
+5. Maintain minification skip list
+
+### Troubleshooting
+- CLI installation status
+- Device connection
+- File permissions
+- Platform issues
+- Log review
+
 ---
 
 *This file should be updated any time new global requirements or features are added to the app.* 

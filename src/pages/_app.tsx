@@ -35,6 +35,7 @@ function AppContent({ Component, pageProps }: AppProps) {
   const globalError = useSelector((state: RootState) => state.app.globalError);
   const dispatch = useDispatch();
   const { version, name: appName } = require('../../package.json');
+  const buildTimestamp = new Date().toISOString();
 
   useEffect(() => {
     const startup = async () => {
@@ -61,7 +62,7 @@ function AppContent({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {loading && <LoadingScreen version={version} appName={appName} />}
+      {loading && <LoadingScreen version={version} appName={appName} buildTimestamp={buildTimestamp} />}
       <Component {...pageProps} />
       <ToastContainer
         position="bottom-right"

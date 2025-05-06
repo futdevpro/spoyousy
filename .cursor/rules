@@ -21,7 +21,7 @@
 
 ## Agent Rules
 - Always apply fixes: When an issue or error is identified, always apply the fix immediately, without asking for confirmation.
-- When the user says 'always do this/that', or uses phrases like 'all ... should be' or 'every ... should be', add a new, short, and easily understandable rule for AI agents to this section.
+- When the user says 'always do this/that' or 'never do this/that', or uses phrases like 'all ... should be' or 'every ... should be', add a new, short, and easily understandable rule for AI agents to this section.
 - Always run tests after bigger implementations.
 - Always try to create unit tests for new implementations.
 - When getting a command that requires multiple tasks/steps, always do them one by one.
@@ -29,6 +29,14 @@
 - Always add code documentation whenever it is useful, and at every method.
 - When the user asks about how/why/etc, always add documentation to the code.
 - All logs should always be specific and unique—no two logs should be the same or collide.
+- Always provide feedback when reading and following rules by starting responses with a confirmation of rule reading.
+- Never remove or simplify existing descriptions, documentation, logs, user helpers, or any other helpful content.
+- Always try to comply with Sonar defaults and best practices for code quality.
+- Never remove or reduce error handling, logging, or debugging capabilities.
+- Always maintain and enhance existing documentation and user guidance.
+- Never remove or simplify setup instructions, troubleshooting guides, or user assistance content.
+- Always preserve and improve existing code comments and documentation.
+- Never remove or reduce the verbosity of helpful error messages or user feedback.
 
 ## COMMANDS (MUST BE ENFORCED ABOVE ALL ELSE)
 - **Read `.cursor/rules` after each user message/interaction, before task execution.**
