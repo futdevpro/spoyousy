@@ -1,4 +1,11 @@
-# AI Agent Directives
+# AI Agent Rules
+
+## COMMANDS (MUST BE ENFORCED ABOVE ALL ELSE)
+- **Read `.cursor/rules` after each user message/interaction, before task execution.**
+- **Read `specifications.md` before implementing new features or changes.**
+- **Update rules:** When the user commands a new global how-to or says 'always do this/that', add a new, short, and easily understandable rule for AI agents to this `.cursor/rules` file, but never change COMMANDS section.
+- **Update specifications:** When the user commands to create something new in the app that is not included in `specifications.md`, add it to `specifications.md`.
+- **Enforce all commands and rules from `.cursor/rules` for every command and implementation.**
 
 ## Global Instructions
 - Always follow every rule under `.cursor/rules` and where it points.
@@ -37,13 +44,7 @@
 - Never remove or simplify setup instructions, troubleshooting guides, or user assistance content.
 - Always preserve and improve existing code comments and documentation.
 - Never remove or reduce the verbosity of helpful error messages or user feedback.
-
-## COMMANDS (MUST BE ENFORCED ABOVE ALL ELSE)
-- **Read `.cursor/rules` after each user message/interaction, before task execution.**
-- **Read `specifications.md` before implementing new features or changes.**
-- **Update rules:** When the user commands a new global how-to or says 'always do this/that', add a new, short, and easily understandable rule for AI agents to this `.cursor/rules` file.
-- **Update specifications:** When the user commands to create something new in the app that is not included in `specifications.md`, add it to `specifications.md`.
-- **Enforce all commands and rules from `.cursor/rules` for every command and implementation.**
+- Always run `npm run build` after changing anything in the scripts
 
 ---
 

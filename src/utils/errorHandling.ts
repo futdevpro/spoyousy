@@ -112,8 +112,12 @@ export function getErrorMessage(
 export function handleError(error: Error | AppError): void {
   if (error instanceof AppError) {
     const message = getErrorMessage(error.type, error.service, error.code);
-    console.error(`[${error.type}] ${message}:`, error.originalError || error);
-    
+    console.error(`💥 [${error.type}] Application error in ${error.service}:`, {
+      code: error.code,
+      message,
+      details: error.originalError || error
+    });
+
     // Show toast notification
     toast.error(message, {
       position: 'bottom-right',
@@ -137,7 +141,11 @@ export function handleError(error: Error | AppError): void {
     window.dispatchEvent(errorEvent);
   } else {
     // Handle unknown errors
-    console.error('Unexpected error:', error);
+    console.error('⚠️ Unexpected application error:', {
+      error,
+      stack: error.stack,
+      message: error.message
+    });
     toast.error('An unexpected error occurred. Please try again.', {
       position: 'bottom-right',
       autoClose: 5000,

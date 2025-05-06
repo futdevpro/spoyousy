@@ -146,8 +146,8 @@ function printSetupInstructions() {
   console.log('   - Run: ares-setup-device');
   console.log('\n3. After setup:');
   console.log('   - Close and reopen your terminal');
-  console.log('   - Run: pnpm run build:webos');
-  console.log('   - Run: pnpm run package:webos');
+  console.log('   - Run: pnpm run build-webos');
+  console.log('   - Run: pnpm run package-webos');
   console.log('   - Run: pnpm run install:webos');
   console.log('\n📝 Note: The new WebOS CLI supports all platform versions.');
   console.log('   For more information, visit:');
@@ -173,8 +173,8 @@ async function setup() {
   console.log('✅ WebOS development environment setup completed!');
   console.log('\n⚠️  Important: Please close and reopen your terminal to ensure the PATH changes take effect.');
   console.log('\nNext steps:');
-  console.log('1. Run "pnpm run build:webos" to build your app');
-  console.log('2. Run "pnpm run package:webos" to package your app');
+  console.log('1. Run "pnpm run build-webos" to build your app');
+  console.log('2. Run "pnpm run package-webos" to package your app');
   console.log('3. Run "pnpm run install:webos" to install your app on the device');
 
   return true;

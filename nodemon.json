@@ -1,0 +1,12 @@
+{
+  "watch": ["src"],
+  "ext": "ts,tsx,js,jsx,json,css",
+  "ignore": ["src/**/*.spec.tsx"],
+  "exec": "npm run run-nodemon",
+  "verbose": true,
+  "events": {
+    "start": "echo 🚀 Starting nodemon...",
+    "restart": "echo 🔄 Restarting due to changes...",
+    "crash": "echo 💥 Application crashed!"
+  }
+} 

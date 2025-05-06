@@ -27,14 +27,14 @@ jobs:
     - name: Build Next.js
       run: pnpm run build
 
-    - name: Setup WebOS CLI
-      run: pnpm run setup:webos
+    - name: Setup WebOS
+      run: pnpm run setup-webos
 
     - name: Build WebOS
-      run: pnpm run build:webos
+      run: pnpm run build-webos
 
     - name: Package WebOS
-      run: pnpm run package:webos
+      run: pnpm run package-webos
 
     - name: Upload WebOS IPK
       uses: actions/upload-artifact@v4

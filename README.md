@@ -87,20 +87,20 @@ Open [http://localhost:29336](http://localhost:29336) in your browser.
 
 1. Build the application:
 ```bash
-npm run build:webos
+npm run build-webos
 # or
-yarn build:webos
+yarn build-webos
 # or
-pnpm build:webos
+pnpm build-webos
 ```
 
 2. Package for WebOS:
 ```bash
-npm run package:webos
+npm run package-webos
 # or
-yarn package:webos
+yarn package-webos
 # or
-pnpm package:webos
+pnpm package-webos
 ```
 
 3. Install on WebOS device:

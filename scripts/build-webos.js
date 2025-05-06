@@ -204,8 +204,8 @@ async function build() {
     restoreSkipMinifyFiles();
 
     console.log('✅ [Build] Full WebOS build process completed!');
-    console.log('To package the app, run: pnpm run package:webos');
-    console.log('To install the app, run: pnpm run install:webos');
+    console.log('To package the app, run: pnpm run package-webos');
+    console.log('To install the app, run: pnpm run install-webos');
   } catch (error) {
     console.error('❌ [Build] Build process failed:', error);
     process.exit(1);

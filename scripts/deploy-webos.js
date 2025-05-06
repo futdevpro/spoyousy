@@ -78,9 +78,9 @@ async function deployAndLaunch() {
   try {
     console.log('🚀 Starting WebOS deployment process...');
 
-    // Package the app (includes build, minify, and package)
-    console.log('📦 Packaging the application...');
-    execSync('pnpm run package:webos', { stdio: 'inherit' });
+    // Package the app first
+    console.log('📦 Packaging the app...');
+    execSync('pnpm run package-webos', { stdio: 'inherit' });
     console.log('✅ Package step completed.');
 
     // Read appId from dist/appinfo.json and version from package.json

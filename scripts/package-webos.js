@@ -69,7 +69,7 @@ async function packageApp() {
   try {
     // Build first
     console.log('🚧 Building Next.js app before packaging...');
-    execSync('pnpm run build:webos', { stdio: 'inherit' });
+    execSync('pnpm run build-webos', { stdio: 'inherit' });
     console.log('✅ Next.js build completed.');
 
     // Minify files
