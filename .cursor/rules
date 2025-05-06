@@ -17,9 +17,11 @@
 ## Best Practices
 - Use existing patterns and tech stack unless otherwise instructed.
 - Prefer stability and maintainability over introducing new dependencies or patterns.
-- Use Redux for global state management (loading, error, etc.).
-- Use `react-toastify` for user notifications and error popups.
-- Use `.spec.tsx` for all unit test files.
+- Use Angular Signals for state management instead of Observables.
+- Use Angular's built-in control flow syntax (@if, @for) instead of structural directives (*ngIf, *ngFor).
+- Use Tailwind CSS for styling.
+- Keep interfaces and constants in separate files.
+- Use `.spec.ts` for all unit test files.
 - Keep the startup flow robust and user-friendly (loading screen, error handling, etc.).
 - Keep the app branded (use app logo for loading, etc.).
 - Keep VSCode settings and extension recommendations up to date.

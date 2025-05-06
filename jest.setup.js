@@ -1,6 +1,5 @@
 // Learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom'
-import './src/utils/test-setup'
+import 'jest-preset-angular/setup-jest'
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {

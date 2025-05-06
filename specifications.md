@@ -1,22 +1,21 @@
 # SpoYouSy Specifications
 
 ## Overview
-SpoYouSy is a Next.js/React application that integrates Spotify and YouTube, allowing users to synchronize and interact with both platforms. The app is designed for deployment on WebOS devices (such as LG Smart TVs) and supports both simulator and physical TV deployment.
+SpoYouSy is an Angular application that integrates Spotify and YouTube, allowing users to synchronize and interact with both platforms. The app is designed for deployment on WebOS devices (such as LG Smart TVs) and supports both simulator and physical TV deployment.
 
 ## Tech Stack
-- Next.js (React, TypeScript)
-- Redux Toolkit for state management
-- react-toastify for notifications
+- Angular (TypeScript, Angular Signals for state management, Angular's built-in control flow syntax (@if, @for))
+- Tailwind CSS for styling
 - Jest and Testing Library for unit tests
 - WebOS CLI and packaging scripts for deployment
 
 ## Key Features
 - Spotify and YouTube integration
 - Global loading screen and loading process
-- Global error handling with popups
+- Global error handling with Angular's error handling
 - Robust startup flow
 - Branded UI (uses app logo)
-- Unit tests (all in `.spec.tsx` format)
+- Unit tests (all in `.spec.ts` format)
 - CI workflows for lint, test, and build
 - VSCode settings and extension recommendations
 
@@ -28,22 +27,30 @@ SpoYouSy is a Next.js/React application that integrates Spotify and YouTube, all
 ## Startup Flow
 1. Show a branded loading screen while the app initializes.
 2. Run startup tasks (auth check, API init, etc.).
-3. On error, show a global error popup.
+3. On error, show a global error message.
 4. On success, show the main app UI.
 
 ## Loading Process
-- Uses a global `loading` state in Redux (`appSlice`).
+- Uses a global `loading` signal in PlayerService.
 - Loading is set to `true` at startup and `false` after initialization.
 - The loading screen is shown whenever `loading` is `true`.
 
 ## Global Error Handling
-- Uses a global `globalError` state in Redux (`appSlice`).
-- Top-level React Error Boundary catches rendering errors and dispatches `setGlobalError`.
-- Async startup logic uses try/catch and dispatches `setGlobalError` on error.
-- Errors are shown as popups using `react-toastify`.
+- Uses Angular's built-in error handling mechanisms.
+- Global error interceptor catches HTTP errors.
+- ErrorHandler service for application-wide error handling.
+- Async startup logic uses try/catch with proper error handling.
+- Errors are shown using Angular's error handling components.
+
+## Component Architecture
+- Standalone components with their own dependencies
+- Signal-based state management
+- Modern control flow syntax (@if, @for)
+- Interfaces and constants in separate files
+- Proper TypeScript typing
 
 ## Testing
-- All unit test files use the `.spec.tsx` extension.
+- All unit test files use the `.spec.ts` extension.
 - Tests are run with Jest and Testing Library.
 
 ## Deployment
@@ -52,12 +59,12 @@ SpoYouSy is a Next.js/React application that integrates Spotify and YouTube, all
 - Icon is always copied from `src/assets/icon.png`.
 
 ## VSCode
-- Recommended extensions: WebOS Studio, SonarLint, etc.
+- Recommended extensions: Angular Language Service, SonarLint, etc.
 - Workspace settings for formatting, file associations, and search.
 
 ## Global Instructions
 - Always follow every rule under `.cursor/rules` and where it points.
-- When the user commands to do something in a new way (global how-to), add that to `AI Agent directives.md` (now `.cursor/rules`).
+- When the user commands to do something in a new way (global how-to), add that to `.cursor/rules`.
 - When the user commands to create something new in the app that is not included in this file, add it to `specifications.md`.
 - **All rules and commands from `.cursor/rules` must be enforced for every command and implementation.**
 
@@ -70,7 +77,7 @@ A set of scripts for building, packaging, and deploying WebOS applications. All 
 
 #### `build-webos.js`
 - **Purpose**: Complete WebOS build process
-- **Flow**: CLI check → Next.js build → WebOS files copy → Next.js output copy → Minification management
+- **Flow**: CLI check → Angular build → WebOS files copy → Angular output copy → Minification management
 - **Key**: Platform-specific operations, minification skip handling
 
 #### `package-webos.js`

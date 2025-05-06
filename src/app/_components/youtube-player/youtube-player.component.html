@@ -1,0 +1,27 @@
+@if (accessToken_() === null) {
+  <div class="bg-surface-color rounded-lg p-6 text-center">
+    <p class="text-gray-400">Connect your YouTube account to start playing</p>
+  </div>
+}
+
+@if (accessToken_() !== null) {
+  <div class="bg-surface-color rounded-lg p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold">YouTube</h2>
+      <div class="flex items-center space-x-2">
+        <div
+          class="w-2 h-2 rounded-full"
+          [class.bg-green-500]="youtube_().isPlaying"
+          [class.bg-gray-500]="!youtube_().isPlaying"
+        ></div>
+        <span class="text-sm text-gray-400">
+          {{ youtube_().isPlaying ? 'Playing' : 'Paused' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="aspect-video bg-black rounded-lg overflow-hidden">
+      <div #playerContainer class="w-full h-full"></div>
+    </div>
+  </div>
+} 

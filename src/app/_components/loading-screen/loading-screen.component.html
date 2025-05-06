@@ -1,0 +1,18 @@
+<div class="overlay">
+  <div class="center">
+    <img 
+      [src]="iconPath"
+      alt="App Logo" 
+      width="128" 
+      height="128" 
+      class="logo"
+      (load)="onLogoLoad()"
+      (error)="onLogoError($event)"
+    />
+    <div class="appName">{{ appName }}</div>
+    <div class="spinner"></div>
+    <div class="text">Loading...</div>
+    <div class="version">v{{ version }}</div>
+    <div *ngIf="buildTimestamp" class="timestamp">{{ buildTimestamp }}</div>
+  </div>
+</div> 
