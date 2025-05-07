@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import YouTube from 'youtube-player';
 import { PlayerService } from '../../_services/player.service';
 
+interface YouTubeStateChangeEvent {
+  data: number;
+}
+
 @Component({
   selector: 'app-youtube-player',
   templateUrl: './youtube-player.component.html',
@@ -11,7 +15,7 @@ import { PlayerService } from '../../_services/player.service';
 })
 export class YouTubePlayerComponent implements OnDestroy {
   @ViewChild('playerContainer') private readonly playerContainer!: ElementRef;
-  private player: any;
+  private player: ReturnType<typeof YouTube> | null = null;
   private readonly playerService = inject(PlayerService);
   readonly youtube_ = this.playerService.youtube_;
   readonly accessToken_ = this.playerService.youtubeAccessToken_;
@@ -32,13 +36,13 @@ export class YouTubePlayerComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.player) {
       this.player.destroy();
     }
   }
 
-  private initializePlayer() {
+  private initializePlayer(): void {
     this.player = YouTube(this.playerContainer.nativeElement, {
       width: '100%',
       height: '100%',
@@ -50,7 +54,7 @@ export class YouTubePlayerComponent implements OnDestroy {
       },
     });
 
-    this.player.on('stateChange', (event: any) => {
+    this.player.on('stateChange', (event: YouTubeStateChangeEvent) => {
       if (event.data === 1) { // Playing
         this.playerService.setYoutubePlayback(true);
       } else if (event.data === 2) { // Paused

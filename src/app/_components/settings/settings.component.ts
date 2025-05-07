@@ -22,7 +22,7 @@ export class SettingsComponent {
    * Toggles the settings modal visibility.
    * Includes logging for debugging purposes.
    */
-  protected toggleSettings(): void {
+  public toggleSettings(): void {
     console.log('⚙️ Toggling settings visibility');
     try {
       this.isOpen = !this.isOpen;

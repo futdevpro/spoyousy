@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Settings } from '../_models/settings.interface';
 import { INITIAL_SETTINGS } from '../_models/settings.const';
 

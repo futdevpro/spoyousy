@@ -75,7 +75,7 @@ npm run package-webos
 
 4. Deploy to WebOS device:
 ```bash
-npm run deploy-webos
+npm run deploy-to-mytv
 ```
 
 ## Testing
@@ -93,7 +93,7 @@ npm run deploy-webos
 - `npm run lint` - Run linter
 - `npm run build-webos` - Build for WebOS
 - `npm run package-webos` - Package for WebOS
-- `npm run deploy-webos` - Deploy to WebOS device
+- `npm run deploy-to-mytv` - Deploy to WebOS device
 - `npm run dev-webos` - Development mode with WebOS packaging
 - `npm run setup-webos` - Set up WebOS environment
 
@@ -212,11 +212,11 @@ pnpm package-webos
 
 3. Install on WebOS device:
 ```bash
-npm run install:webos
+npm run deploy-to-mytv
 # or
-yarn install:webos
+yarn deploy-to-mytv
 # or
-pnpm install:webos
+pnpm deploy-to-mytv
 ```
 
 ## API Integration

@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { PlayerState } from '../_models/player.interface';
 import { INITIAL_PLAYER_STATE } from '../_models/player.const';
 

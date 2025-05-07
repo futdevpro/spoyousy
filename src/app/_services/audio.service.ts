@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class AudioService {
 
     // Only try to autoplay on first load
     if (this.isFirstPlay) {
-      this.audio.play().catch(error => {
+      this.audio.play().catch(() => {
         console.log('ℹ️ Autoplay prevented by browser, will play on next user interaction');
         // Add click listener to document to play on first user interaction
         const playOnInteraction = () => {

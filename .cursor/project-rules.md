@@ -55,6 +55,7 @@
 - Always run tests after bigger implementations.
 - Always run `npm run build` after changing anything in the scripts.
 - Keep the startup flow robust and user-friendly (loading screen, error handling, etc.).
+- After changing test files always run `npm run test`
 
 ### Logging & Debugging
 - Put logs before and after all executions.

@@ -2,6 +2,22 @@ import { Component, OnDestroy, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayerService } from '../../_services/player.service';
 
+interface SpotifyPlayerState {
+  is_playing: boolean;
+  position: number;
+  track_window: {
+    current_track: {
+      id: string;
+    };
+  };
+}
+
+interface SpotifyDeviceEvent {
+  device_id: string;
+}
+
+type SpotifyEventData = SpotifyPlayerState | SpotifyDeviceEvent;
+
 declare global {
   interface Window {
     onSpotifyWebPlaybackSDKReady: () => void;
@@ -11,7 +27,7 @@ declare global {
         getOAuthToken: (callback: (token: string) => void) => void;
         volume: number;
       }) => {
-        addListener: (event: string, callback: (data: any) => void) => void;
+        addListener: (event: string, callback: (data: SpotifyEventData) => void) => void;
         connect: () => Promise<boolean>;
       };
     };
@@ -46,8 +62,11 @@ export class SpotifyPlayerComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    // Clean up any resources if needed
+  ngOnDestroy(): void {
+    // Clean up Spotify player resources
+    if (this.deviceId) {
+      this.deviceId = null;
+    }
   }
 
   private initializePlayer() {
@@ -64,24 +83,28 @@ export class SpotifyPlayerComponent implements OnDestroy {
         volume: 0.5
       });
 
-      player.addListener('ready', ({ device_id }: { device_id: string }) => {
-        console.log('Ready with Device ID', device_id);
-        this.deviceId = device_id;
-      });
-
-      player.addListener('not_ready', ({ device_id }: { device_id: string }) => {
-        console.log('Device ID has gone offline', device_id);
-        if (this.deviceId === device_id) {
-          this.deviceId = null;
+      player.addListener('ready', (data: SpotifyEventData) => {
+        if ('device_id' in data) {
+          console.log('Ready with Device ID', data.device_id);
+          this.deviceId = data.device_id;
         }
       });
 
-      player.addListener('player_state_changed', (state: { is_playing: boolean; position: number; track_window: { current_track: { id: string } } }) => {
-        if (state) {
+      player.addListener('not_ready', (data: SpotifyEventData) => {
+        if ('device_id' in data) {
+          console.log('Device ID has gone offline', data.device_id);
+          if (this.deviceId === data.device_id) {
+            this.deviceId = null;
+          }
+        }
+      });
+
+      player.addListener('player_state_changed', (data: SpotifyEventData) => {
+        if ('is_playing' in data) {
           this.playerService.setSpotifyPlayback(
-            state.is_playing,
-            state.position,
-            state.track_window.current_track.id
+            data.is_playing,
+            data.position,
+            data.track_window.current_track.id
           );
         }
       });
