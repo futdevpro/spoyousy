@@ -1,18 +1,28 @@
-<div class="overlay">
-  <div class="center">
+<!-- Loading screen overlay that covers the entire viewport -->
+<div class="fixed top-0 left-0 w-screen h-screen bg-black/95 z-50 flex items-center justify-center">
+  <!-- Center container for loading content -->
+  <div class="flex flex-col items-center">
+    <!-- App logo -->
     <img 
       [src]="iconPath"
       alt="App Logo" 
       width="128" 
       height="128" 
-      class="logo"
+      class="mb-6"
       (load)="onLogoLoad()"
       (error)="onLogoError($event)"
     />
-    <div class="appName">{{ appName }}</div>
-    <div class="spinner"></div>
-    <div class="text">Loading...</div>
-    <div class="version">v{{ version }}</div>
-    <div *ngIf="buildTimestamp" class="timestamp">{{ buildTimestamp }}</div>
+    <!-- Application name -->
+    <div class="text-white text-2xl font-bold mb-3 tracking-wider">{{ appName }}</div>
+    <!-- Loading spinner -->
+    <div class="w-12 h-12 border-4 border-green-500 border-t-white rounded-full mb-4 animate-spin"></div>
+    <!-- Loading text -->
+    <div class="text-white text-lg font-medium mt-2 tracking-wider">Loading...</div>
+    <!-- Version information -->
+    <div class="text-gray-400 text-sm mt-3 tracking-wide">v{{ version }}</div>
+    <!-- Build timestamp -->
+    @if (buildTimestamp) {
+      <div class="text-gray-300 text-sm mt-1 tracking-wide">{{ buildTimestamp }}</div>
+    }
   </div>
 </div> 

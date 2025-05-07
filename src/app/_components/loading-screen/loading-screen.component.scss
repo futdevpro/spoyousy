@@ -1,43 +1,5 @@
-.overlay {
-  @apply fixed top-0 left-0 w-screen h-screen bg-black/95 z-50 flex items-center justify-center;
-}
-
-.center {
-  @apply flex flex-col items-center;
-}
-
-.logo {
-  @apply mb-6;
-  animation: logo-spin 2s linear infinite;
-}
-
-@keyframes logo-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.spinner {
-  @apply w-12 h-12 border-4 border-green-500 border-t-white rounded-full mb-4;
-  animation: spin 1s linear infinite;
-}
-
+// Spinner rotation animation
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-.text {
-  @apply text-white text-lg font-medium mt-2 tracking-wider;
-}
-
-.version {
-  @apply text-gray-400 text-sm mt-3 tracking-wide;
-}
-
-.appName {
-  @apply text-white text-2xl font-bold mb-3 tracking-wider;
-}
-
-.timestamp {
-  @apply text-gray-300 text-sm mt-1 tracking-wide;
 } 

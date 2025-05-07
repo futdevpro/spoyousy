@@ -105,4 +105,14 @@ export class SpotifyPlayerComponent implements OnDestroy {
       })
     });
   }
+
+  connectSpotify() {
+    const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your Spotify Client ID
+    const redirectUri = window.location.origin;
+    const scope = 'streaming user-read-email user-read-private';
+
+    const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+
+    window.location.href = authUrl;
+  }
 } 

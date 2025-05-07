@@ -13,6 +13,7 @@
 # production
 /build
 /dist
+.angular/
 
 # misc
 .DS_Store

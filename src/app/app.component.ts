@@ -1,40 +1,56 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { LoadingScreenComponent } from './_components/loading-screen/loading-screen.component';
-import { SettingsComponent } from './_components/settings/settings.component';
-import { YouTubePlayerComponent } from './_components/youtube-player/youtube-player.component';
-import { SpotifyPlayerComponent } from './_components/spotify-player/spotify-player.component';
+import { PlayerService } from './_services/player.service';
+import { AudioService } from './_services/audio.service';
 
+/**
+ * Root component of the SpoYouSy application.
+ * Handles the initial loading screen and app initialization.
+ */
 @Component({
   selector: 'app-root',
-  template: `
-    <div class="container mx-auto px-4 py-8">
-      <header class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900">Music Player</h1>
-        <p class="mt-2 text-lg text-gray-600">Listen to your favorite music from YouTube and Spotify</p>
-      </header>
-      <app-loading-screen></app-loading-screen>
-      <app-settings></app-settings>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-        <app-youtube-player></app-youtube-player>
-        <app-spotify-player></app-spotify-player>
-      </div>
-    </div>
-  `,
-  styles: [`
-    :host {
-      @apply block min-h-screen bg-gray-100;
-    }
-  `],
   standalone: true,
-  imports: [
-    CommonModule,
-    LoadingScreenComponent,
-    SettingsComponent,
-    YouTubePlayerComponent,
-    SpotifyPlayerComponent
-  ]
+  imports: [RouterOutlet, LoadingScreenComponent],
+  template: `
+    @if (playerService.loading_()) {
+      <app-loading-screen 
+        [version]="'1.0.0'"
+        [appName]="title"
+        [buildTimestamp]="buildTimestamp"
+      />
+    }
+    <router-outlet />
+  `
 })
-export class AppComponent {
-  title = 'music-player';
+export class AppComponent implements OnInit {
+  title = 'SpoYouSy';
+  buildTimestamp = new Date().toISOString();
+  playerService = inject(PlayerService);
+  audioService = inject(AudioService);
+
+  /**
+   * Initializes the application.
+   * Plays the startup sound and sets up the initial loading state.
+   */
+  ngOnInit() {
+    console.log('🚀 App component initialized');
+    try {
+      // Play start sound
+      console.log('🎵 Playing startup sound');
+      this.audioService.playAudio('assets/start_hehe.mp3');
+
+      // Set loading to false after a short delay to ensure everything is loaded
+      console.log('⏳ Setting up initial loading state');
+      setTimeout(() => {
+        this.playerService.setLoading(false);
+        console.log('✅ Initial loading state completed');
+      }, 1000);
+    } catch (error) {
+      console.error('❌ Failed to initialize app:', error);
+      // Ensure loading state is set to false even if there's an error
+      this.playerService.setLoading(false);
+      throw error;
+    }
+  }
 } 
