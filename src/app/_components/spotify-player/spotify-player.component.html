@@ -1,0 +1,38 @@
+@if (accessToken_() === null) {
+  <div class="h-full bg-surface-color rounded-lg p-6 flex flex-col items-center justify-center">
+    <p class="text-gray-400 mb-4">Connect your Spotify account to start playing</p>
+    <button 
+      (click)="connectSpotify()"
+      class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+    >
+      Connect Spotify
+    </button>
+  </div>
+}
+
+@if (accessToken_() !== null) {
+  <div class="h-full bg-surface-color rounded-lg p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-semibold">Spotify</h2>
+      <div class="flex items-center space-x-2">
+        <div
+          class="w-2 h-2 rounded-full"
+          [class.bg-green-500]="spotify_().isPlaying"
+          [class.bg-gray-500]="!spotify_().isPlaying"
+        ></div>
+        <span class="text-sm text-gray-400">
+          {{ spotify_().isPlaying ? 'Playing' : 'Paused' }}
+        </span>
+      </div>
+    </div>
+
+    @if (spotify_().trackId) {
+      <div>
+        <p class="text-lg font-medium mb-2">Track ID: {{ spotify_().trackId }}</p>
+        <p class="text-gray-400">Progress: {{ spotify_().progress }}ms</p>
+      </div>
+    } @else {
+      <p class="text-gray-400">No track playing</p>
+    }
+  </div>
+} 

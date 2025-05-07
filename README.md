@@ -1,6 +1,113 @@
-# SpoYouSy - WebOS Spotify-YouTube Sync App
+# SpoYouSy
 
-A WebOS application that synchronizes Spotify playback with matching YouTube videos in real-time.
+A WebOS application that integrates Spotify and YouTube playback, built with Angular 18.
+
+## Project Structure
+
+```
+spoyousy/
+├── src/
+│   ├── app/
+│   │   ├── _components/     # Angular components
+│   │   │   ├── auth-buttons/    # Authentication UI
+│   │   │   ├── settings/        # Settings panel
+│   │   │   ├── spotify-player/  # Spotify player UI
+│   │   │   └── youtube-player/  # YouTube player UI
+│   │   ├── _services/      # Angular services
+│   │   ├── _models/        # TypeScript interfaces and constants
+│   │   └── app.component.* # Root component files
+│   ├── assets/        # Static assets
+│   ├── environments/  # Environment configurations
+│   ├── styles/        # Global styles
+│   ├── types/         # TypeScript type definitions
+│   ├── utils/         # Utility functions
+│   ├── main.ts        # Application entry point
+│   └── index.html     # Main HTML file
+├── webos/            # WebOS specific files
+├── scripts/          # Build and deployment scripts
+├── .vscode/          # VSCode configuration
+├── .github/          # GitHub workflows
+└── ... configuration files
+```
+
+## Tech Stack
+
+- Angular 18
+- Angular Signals for state management
+- Angular's built-in control flow syntax (@if, @for)
+- Tailwind CSS for styling
+- Jest for testing
+- WebOS SDK for deployment
+
+## Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Start development server:
+```bash
+npm start
+```
+
+3. Run tests:
+```bash
+npm test
+```
+
+## WebOS Development
+
+1. Set up WebOS environment:
+```bash
+npm run setup-webos
+```
+
+2. Build for WebOS:
+```bash
+npm run build-webos
+```
+
+3. Package for WebOS:
+```bash
+npm run package-webos
+```
+
+4. Deploy to WebOS device:
+```bash
+npm run deploy-to-mytv
+```
+
+## Testing
+
+- Unit tests use Jest
+- Run tests: `npm test`
+- Watch mode: `npm run test:watch`
+- Coverage report: `npm run test:coverage`
+
+## Scripts
+
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+- `npm run lint` - Run linter
+- `npm run build-webos` - Build for WebOS
+- `npm run package-webos` - Package for WebOS
+- `npm run deploy-to-mytv` - Deploy to WebOS device
+- `npm run dev-webos` - Development mode with WebOS packaging
+- `npm run setup-webos` - Set up WebOS environment
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Features
 
@@ -87,59 +194,29 @@ Open [http://localhost:29336](http://localhost:29336) in your browser.
 
 1. Build the application:
 ```bash
-npm run build:webos
+npm run build-webos
 # or
-yarn build:webos
+yarn build-webos
 # or
-pnpm build:webos
+pnpm build-webos
 ```
 
 2. Package for WebOS:
 ```bash
-npm run package:webos
+npm run package-webos
 # or
-yarn package:webos
+yarn package-webos
 # or
-pnpm package:webos
+pnpm package-webos
 ```
 
 3. Install on WebOS device:
 ```bash
-npm run install:webos
+npm run deploy-to-mytv
 # or
-yarn install:webos
+yarn deploy-to-mytv
 # or
-pnpm install:webos
-```
-
-## Project Structure
-
-```
-spoyousy/
-├── src/
-│   ├── components/     # React components
-│   │   ├── AuthButtons.tsx    # Authentication UI
-│   │   ├── Settings.tsx       # Settings panel
-│   │   ├── SpotifyPlayer.tsx  # Spotify player UI
-│   │   └── YouTubePlayer.tsx  # YouTube player UI
-│   ├── hooks/         # Custom React hooks
-│   ├── lib/           # Utility functions and API clients
-│   ├── pages/         # Next.js pages
-│   │   ├── api/       # API routes
-│   │   │   └── auth/  # Authentication endpoints
-│   │   └── index.tsx  # Main application page
-│   ├── store/         # Redux store
-│   │   ├── slices/    # Redux slices
-│   │   └── index.ts   # Store configuration
-│   ├── types/         # TypeScript type definitions
-│   └── utils/         # Utility functions
-├── webos/             # WebOS specific files
-│   ├── appinfo.json   # WebOS app configuration
-│   ├── index.html     # WebOS entry point
-│   └── webos.js       # WebOS specific functionality
-├── public/            # Static assets
-├── scripts/           # Build scripts
-└── tests/             # Test files
+pnpm deploy-to-mytv
 ```
 
 ## API Integration
@@ -220,18 +297,6 @@ The application implements comprehensive error handling for various scenarios:
 - Remote navigation
 - High contrast support
 - Responsive layout
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 

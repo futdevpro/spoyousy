@@ -1,0 +1,83 @@
+<div>
+  <button
+    (click)="toggleSettings()"
+    class="bg-primary-color hover:bg-opacity-80 text-white px-4 py-2 rounded-lg"
+  >
+    Settings
+  </button>
+
+  @if (isOpen) {
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-surface-color rounded-lg p-6 max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-4">Settings</h2>
+
+        <!-- Search Preferences -->
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">Search Preferences</h3>
+          <div class="space-y-2">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                [checked]="settingsService.settings_().searchPreferences.useExactMatch"
+                (change)="updateSetting('useExactMatch', $event)"
+                class="mr-2"
+              />
+              Use exact match
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                [checked]="settingsService.settings_().searchPreferences.includeRemixes"
+                (change)="updateSetting('includeRemixes', $event)"
+                class="mr-2"
+              />
+              Include remixes
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                [checked]="settingsService.settings_().searchPreferences.includeLiveVersions"
+                (change)="updateSetting('includeLiveVersions', $event)"
+                class="mr-2"
+              />
+              Include live versions
+            </label>
+          </div>
+        </div>
+
+        <!-- Auto Resync -->
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">Sync Settings</h3>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              [checked]="settingsService.settings_().autoResync"
+              (change)="updateSetting('autoResync', $event)"
+              class="mr-2"
+            />
+            Auto-resync when out of sync
+          </label>
+        </div>
+
+        <!-- Manual Video Override -->
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-2">Manual Override</h3>
+          <input
+            type="text"
+            [value]="settingsService.settings_().manualVideoOverride || ''"
+            (input)="handleManualOverrideChange($event)"
+            placeholder="YouTube video ID"
+            class="w-full px-3 py-2 bg-background-color rounded border border-gray-600"
+          />
+        </div>
+
+        <button
+          (click)="toggleSettings()"
+          class="bg-primary-color hover:bg-opacity-80 text-white px-4 py-2 rounded-lg w-full"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  }
+</div> 

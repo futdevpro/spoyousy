@@ -13,6 +13,7 @@
 # production
 /build
 /dist
+.angular/
 
 # misc
 .DS_Store
@@ -45,7 +46,6 @@ next-env.d.ts
 
 # IDE
 .idea/
-.vscode/
 *.swp
 *.swo
 
